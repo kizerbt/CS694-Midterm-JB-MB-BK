@@ -32,9 +32,8 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
     boolean removing;                                        // 6
     int over;                                                // 6
     boolean moving_type;
-    GameFrame app;
 
-    Board(GameFrame app) {
+    Board() {
         // 1
         Toolkit tk = (Toolkit.getDefaultToolkit());        // 1
         board = tk.getImage(".\\src\\images\\board.jpg");           // 1
@@ -50,8 +49,6 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
 
         checkers = new Vector<Position>();                    // 5
         removing = false;                                     // 6
-
-        this.app = app;
 
         moving_type = true;
     }
@@ -156,38 +153,99 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
         paint(this.getGraphics());                            // 5
     }                                                        // 5
 
-    public void removeChecker() {                           // 6
-        if (removing) {                                       // 6
-            removing = false;                                  // 6
-            app.remove.setText("Remove Checker");              // 6
-        } else {                                              // 6
-            removing = true;                                   // 6
-            app.remove.setText("Stop Removing");               // 6
-        }                                                     // 6
-    }                                                        // 6
+//    public void removeChecker() {                           // 6
+//        if (removing) {                                       // 6
+//            removing = false;                                  // 6
+//            remove.setText("Remove Checker");              // 6
+//        } else {                                              // 6
+//            removing = true;                                   // 6
+//            remove.setText("Stop Removing");               // 6
+//        }                                                     // 6
+//    }                                                        // 6
 }
 
-class GameFrame extends JFrame implements ActionListener { // 1
+public class Game extends Applet implements ActionListener {
 
-    Board board;                                             // 1
-    static final long serialVersionUID = 23L;                // 1
-    JButton remove;
+    JButton whoseturn;
+    JButton initiate;
+    JButton terminate;
+    JButton updateplayerlist;
+    JButton invite;
+    JButton accept;
+    JButton decline;
+    JButton resign;
+    JButton getboard;
+    JTextField invitor;
+    JComboBox playerlist;
+    JComboBox hosts;
+    JComboBox handle;
+    JLabel invitor_label;
+    Board board;
 
-    public GameFrame() {                                   // 1
-        setLayout(new BorderLayout());                        // 1
-        setBackground(new Color(255, 255, 224));                // 1
+    public void init() {
+        setLayout(new BorderLayout());
+        
+        add("Center", board = new Board());
 
-        add("Center", board = new Board(this));               // 1
+        JPanel localPanel = new JPanel();
+        localPanel.setLayout(new GridLayout(24, 1));
+        localPanel.add(this.handle = new JComboBox());
+        localPanel.add(this.hosts = new JComboBox());
+        localPanel.add(this.initiate = new JButton("         Start         "));
+        localPanel.add(this.terminate = new JButton("Stop"));
+        localPanel.add(this.whoseturn = new JButton("     "));
+        localPanel.add(new JLabel(""));
+        localPanel.add(this.updateplayerlist = new JButton("Update"));
+        localPanel.add(this.playerlist = new JComboBox());
+        localPanel.add(this.invite = new JButton("Invite"));
+        localPanel.add(new JLabel(""));
+        localPanel.add(this.invitor_label = new JLabel("Invitor", 0));
+        localPanel.add(this.invitor = new JTextField());
+        localPanel.add(this.accept = new JButton("Accept"));
+        localPanel.add(this.decline = new JButton("Decline"));
+        localPanel.add(new JLabel(""));
+        localPanel.add(this.resign = new JButton("Resign"));
+        localPanel.add(this.getboard = new JButton("Get Board"));
+        add("East", localPanel);
+        
+        setSize(785,640);
+        this.whoseturn.addActionListener(this);
+        this.whoseturn.setBackground(Color.red);
 
-        JPanel p = new JPanel();                              // 5
-        p.setLayout(new FlowLayout());                        // 5
-        p.setBackground(new Color(255, 255, 224));              // 5
-        p.add(remove = new JButton("Remove Checker"));        // 5
-        add("South", p);
+        this.initiate.addActionListener(this);
+        this.initiate.setEnabled(true);
 
-        // button.addActionListener(this);                    // 5
-        remove.addActionListener(this);
+        this.terminate.addActionListener(this);
+        this.terminate.setEnabled(false);
 
+        this.accept.setEnabled(false);
+        this.accept.addActionListener(this);
+
+        this.decline.setEnabled(false);
+        this.decline.addActionListener(this);
+
+        this.invitor.setEnabled(false);
+        this.invitor_label.setEnabled(false);
+        this.invitor.setEditable(false);
+        this.invitor.setFont(new Font("TimesRoman", 1, 16));
+
+        this.resign.addActionListener(this);
+        this.getboard.addActionListener(this);
+        this.updateplayerlist.addActionListener(this);
+        this.invite.addActionListener(this);
+        
+        this.hosts.setEditable(true);
+        this.hosts.addItem("localhost");
+        this.hosts.addItem("gauss.ececs.uc.edu");
+        this.hosts.addItem("helios.ececs.uc.edu");
+        this.handle.addItem("player_1");
+        this.handle.addItem("player_2");
+        this.handle.addItem("player_3");
+        this.handle.addItem("player_4");
+        this.handle.addItem("franco");
+        addMouseListener(this.board);
+        addMouseMotionListener(this.board);
+        
         board.addChecker(0, 1, true);
         board.addChecker(0, 3, true);
         board.addChecker(0, 5, true);
@@ -213,39 +271,14 @@ class GameFrame extends JFrame implements ActionListener { // 1
         board.addChecker(7, 2, false);
         board.addChecker(7, 4, false);
         board.addChecker(7, 6, false);
-    }                                                        // 1
 
-    public void paint(Graphics g) {                         // 1
-        board.paint(board.getGraphics());                     // 1
-        remove.paint(remove.getGraphics());
-    }                                                        // 1
-
-    public void actionPerformed(ActionEvent evt) {
-        if (evt.getSource() == remove) {
-            board.removeChecker();
-        }
-        // else board.addChecker();                           // 5
-    }
-
-    public void start() {
+        
         board.setImage();
-    }
-}
-
-public class Game extends Applet implements ActionListener {
-
-    JButton go;
-
-    public void init() {
-        setLayout(new BorderLayout());
-        add("Center", go = new JButton("Applet"));
-        go.addActionListener(this);
+        board.paint(board.getGraphics());
+        
     }
 
     public void actionPerformed(ActionEvent evt) {
-        GameFrame rb4 = new GameFrame();
-        rb4.setSize(650, 710);
-        rb4.setVisible(true);
-        rb4.start();
+        // TODO: implement action listeners for buttons
     }
 }

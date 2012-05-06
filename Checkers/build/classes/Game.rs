@@ -1,4 +1,0 @@
-GameFrame
-Game
-Board
-Position
