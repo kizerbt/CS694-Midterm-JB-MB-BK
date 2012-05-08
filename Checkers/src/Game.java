@@ -1,21 +1,19 @@
 
-import java.net.*;
-import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.applet.*;
 
 public class Game extends Applet implements ActionListener {
-    JButton whoseturn;
+    JButton yourTurn;
     JButton initiate;
     JButton terminate;
-    JButton updateplayerlist;
-    JButton invite;
-    JButton accept;
-    JButton decline;
+    JButton updatePlayerList;
+    JButton invitePlayer;
+    JButton acceptInvite;
+    JButton declineInvite;
     JButton resign;
-    JButton getboard;
+    JButton getBoard;
     JTextField invitor;
     JComboBox playerlist;
     JComboBox hosts;
@@ -34,24 +32,24 @@ public class Game extends Applet implements ActionListener {
         localPanel.add(this.hosts = new JComboBox());
         localPanel.add(this.initiate = new JButton("         Start         "));
         localPanel.add(this.terminate = new JButton("Stop"));
-        localPanel.add(this.whoseturn = new JButton("     "));
+        localPanel.add(this.yourTurn = new JButton("     "));
         localPanel.add(new JLabel(""));
-        localPanel.add(this.updateplayerlist = new JButton("Update"));
+        localPanel.add(this.updatePlayerList = new JButton("Update"));
         localPanel.add(this.playerlist = new JComboBox());
-        localPanel.add(this.invite = new JButton("Invite"));
+        localPanel.add(this.invitePlayer = new JButton("Invite"));
         localPanel.add(new JLabel(""));
         localPanel.add(this.invitor_label = new JLabel("Invitor", 0));
         localPanel.add(this.invitor = new JTextField());
-        localPanel.add(this.accept = new JButton("Accept"));
-        localPanel.add(this.decline = new JButton("Decline"));
+        localPanel.add(this.acceptInvite = new JButton("Accept"));
+        localPanel.add(this.declineInvite = new JButton("Decline"));
         localPanel.add(new JLabel(""));
         localPanel.add(this.resign = new JButton("Resign"));
-        localPanel.add(this.getboard = new JButton("Get Board"));
+        localPanel.add(this.getBoard = new JButton("Get Board"));
         add("East", localPanel);
         
         setSize(785,640);
-        this.whoseturn.addActionListener(this);
-        this.whoseturn.setBackground(Color.red);
+        this.yourTurn.addActionListener(this);
+        this.yourTurn.setBackground(Color.red);
 
         this.initiate.addActionListener(this);
         this.initiate.setEnabled(true);
@@ -59,11 +57,11 @@ public class Game extends Applet implements ActionListener {
         this.terminate.addActionListener(this);
         this.terminate.setEnabled(false);
 
-        this.accept.setEnabled(false);
-        this.accept.addActionListener(this);
+        this.acceptInvite.setEnabled(false);
+        this.acceptInvite.addActionListener(this);
 
-        this.decline.setEnabled(false);
-        this.decline.addActionListener(this);
+        this.declineInvite.setEnabled(false);
+        this.declineInvite.addActionListener(this);
 
         this.invitor.setEnabled(false);
         this.invitor_label.setEnabled(false);
@@ -71,9 +69,9 @@ public class Game extends Applet implements ActionListener {
         this.invitor.setFont(new Font("TimesRoman", 1, 16));
 
         this.resign.addActionListener(this);
-        this.getboard.addActionListener(this);
-        this.updateplayerlist.addActionListener(this);
-        this.invite.addActionListener(this);
+        this.getBoard.addActionListener(this);
+        this.updatePlayerList.addActionListener(this);
+        this.invitePlayer.addActionListener(this);
         
         this.hosts.setEditable(true);
         this.hosts.addItem("localhost");
@@ -120,6 +118,22 @@ public class Game extends Applet implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent evt) {
-        // TODO: implement action listeners for buttons
+        if ( evt.getSource() == initiate ) {
+            
+        } else if ( evt.getSource() == terminate ) {    
+        
+        } else if ( evt.getSource() == updatePlayerList ) {
+            
+        } else if ( evt.getSource() == invitePlayer ) {
+            
+        } else if ( evt.getSource() == acceptInvite ) {
+            
+        } else if ( evt.getSource() == declineInvite ) {
+            
+        } else if ( evt.getSource() == resign ) {
+            
+        } else if ( evt.getSource() == getBoard ) {
+            
+        }
     }
 }
