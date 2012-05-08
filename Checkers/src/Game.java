@@ -15,7 +15,7 @@ public class Game extends Applet implements ActionListener {
     JButton resign;
     JButton getBoard;
     JTextField invitor;
-    JComboBox playerlist;
+    JComboBox playerList;
     JComboBox hosts;
     JComboBox handle;
     JLabel invitor_label;
@@ -38,7 +38,7 @@ public class Game extends Applet implements ActionListener {
         localPanel.add(this.yourTurn = new JButton("     "));
         localPanel.add(new JLabel(""));
         localPanel.add(this.updatePlayerList = new JButton("Update"));
-        localPanel.add(this.playerlist = new JComboBox());
+        localPanel.add(this.playerList = new JComboBox());
         localPanel.add(this.invitePlayer = new JButton("Invite"));
         localPanel.add(new JLabel(""));
         localPanel.add(this.invitor_label = new JLabel("Invitor", 0));
@@ -141,7 +141,7 @@ public class Game extends Applet implements ActionListener {
     }
 
     private void startCommand() {
-        mh = new MessageHandler();
+        mh = new MessageHandler(this);
         mh.start();
     }
 
