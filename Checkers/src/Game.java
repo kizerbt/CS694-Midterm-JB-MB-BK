@@ -6,7 +6,7 @@ import java.applet.*;
 
 public class Game extends Applet implements ActionListener {
     JButton yourTurn;
-    JButton initiate;
+    JButton start;
     JButton terminate;
     JButton updatePlayerList;
     JButton invitePlayer;
@@ -20,8 +20,11 @@ public class Game extends Applet implements ActionListener {
     JComboBox handle;
     JLabel invitor_label;
     Board board;
+    MessageHandler mh;
 
     public void init() {
+        mh = null;
+        
         setLayout(new BorderLayout());
         
         add("Center", board = new Board());
@@ -30,7 +33,7 @@ public class Game extends Applet implements ActionListener {
         localPanel.setLayout(new GridLayout(24, 1));
         localPanel.add(this.handle = new JComboBox());
         localPanel.add(this.hosts = new JComboBox());
-        localPanel.add(this.initiate = new JButton("         Start         "));
+        localPanel.add(this.start = new JButton("Start"));
         localPanel.add(this.terminate = new JButton("Stop"));
         localPanel.add(this.yourTurn = new JButton("     "));
         localPanel.add(new JLabel(""));
@@ -51,8 +54,8 @@ public class Game extends Applet implements ActionListener {
         this.yourTurn.addActionListener(this);
         this.yourTurn.setBackground(Color.red);
 
-        this.initiate.addActionListener(this);
-        this.initiate.setEnabled(true);
+        this.start.addActionListener(this);
+        this.start.setEnabled(true);
 
         this.terminate.addActionListener(this);
         this.terminate.setEnabled(false);
@@ -118,22 +121,59 @@ public class Game extends Applet implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent evt) {
-        if ( evt.getSource() == initiate ) {
-            
+        if ( evt.getSource() == start ) {
+            startCommand();
         } else if ( evt.getSource() == terminate ) {    
-        
+            terminate();
         } else if ( evt.getSource() == updatePlayerList ) {
-            
+            updatePlayerList();
         } else if ( evt.getSource() == invitePlayer ) {
-            
+            invitePlayer();
         } else if ( evt.getSource() == acceptInvite ) {
-            
+            acceptInvite();
         } else if ( evt.getSource() == declineInvite ) {
-            
+            declineInvite();
         } else if ( evt.getSource() == resign ) {
-            
+            resign();
         } else if ( evt.getSource() == getBoard ) {
-            
+            getBoard();
         }
+    }
+
+    private void startCommand() {
+        mh = new MessageHandler();
+        mh.start();
+    }
+
+    private void terminate() {
+        if ( mh != null ) {
+            mh.terminate();
+        }
+    }
+
+    private void updatePlayerList() {
+        if ( mh != null ) {
+            mh.getPlayerList();
+        }
+    }
+
+    private void invitePlayer() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void acceptInvite() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void declineInvite() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void resign() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void getBoard() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }
