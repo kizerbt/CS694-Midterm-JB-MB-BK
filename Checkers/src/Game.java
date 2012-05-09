@@ -146,6 +146,7 @@ public class Game extends Applet implements ActionListener {
     }
 
     private void terminate() {
+        String request = "resign";
         if ( mh != null ) {
             mh.terminate();
         }
@@ -158,15 +159,16 @@ public class Game extends Applet implements ActionListener {
     }
 
     private void invitePlayer() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        String request;
+        request = "invite " + this.playerList.getSelectedItem() + "\n";
     }
 
     private void acceptInvite() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        String response = "invitiation " + this.invitor.getText() + " accepted\n";
     }
 
     private void declineInvite() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        String response = "invitiation " + this.invitor.getText() + " declined\n";
     }
 
     private void resign() {

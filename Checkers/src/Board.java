@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -18,6 +17,8 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
     boolean removing;                                        // 6
     int over;                                                // 6
     boolean moving_type;
+    CheckersClient player1;
+    CheckersServer player2;
 
     Board() {
         // 1
