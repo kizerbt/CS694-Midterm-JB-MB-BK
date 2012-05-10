@@ -161,6 +161,7 @@ public class Game extends Applet implements ActionListener {
     private void invitePlayer() {
         String request;
         request = "invite " + this.playerList.getSelectedItem() + "\n";
+        mh.expectingInviteResponse = true;
     }
 
     private void acceptInvite() {
@@ -172,10 +173,16 @@ public class Game extends Applet implements ActionListener {
     }
 
     private void resign() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        if ( mh != null ) {
+            // TODO: send to server "resign"
+        }
     }
 
     private void getBoard() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        if ( mh != null ) {
+            mh.expectingBoard = true;
+            //TODO: Send to server "getboard"
+            return;
+        }
     }
 }
