@@ -1,0 +1,2 @@
+CheckersScoreboard
+CheckersScore
