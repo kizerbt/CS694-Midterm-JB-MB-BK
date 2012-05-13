@@ -1,4 +1,4 @@
-class Position {                                           // 3
+public class Position {                                           // 3
 
     int x, y;                                               // 3
     boolean type;  // true = challenger, false = challengee

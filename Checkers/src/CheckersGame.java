@@ -44,33 +44,34 @@ public class CheckersGame {
     public void startGame() {
         // Create the board
         pieces = Collections.synchronizedList( new ArrayList <CheckersPiece> () );
+        System.out.println("Starting game");
         // Player 2
-        pieces.add( new CheckersPiece( 120, 40, false, player2 ) );
-        pieces.add( new CheckersPiece( 280, 40, false, player2 ) );
-        pieces.add( new CheckersPiece( 440, 40, false, player2 ) );
-        pieces.add( new CheckersPiece( 600, 40, false, player2 ) );
-        pieces.add( new CheckersPiece( 40, 120, false, player2 ) );
-        pieces.add( new CheckersPiece( 200, 120, false, player2 ) );
-        pieces.add( new CheckersPiece( 360, 120, false, player2 ) );
-        pieces.add( new CheckersPiece( 520, 120, false, player2 ) );
-        pieces.add( new CheckersPiece( 120, 200, false, player2 ) );
-        pieces.add( new CheckersPiece( 280, 200, false, player2 ) );
-        pieces.add( new CheckersPiece( 440, 200, false, player2 ) );
-        pieces.add( new CheckersPiece( 600, 200, false, player2 ) );
+        pieces.add( new CheckersPiece( 120, 40, false, player2, false ) );
+        pieces.add( new CheckersPiece( 280, 40, false, player2, false ) );
+        pieces.add( new CheckersPiece( 440, 40, false, player2, false ) );
+        pieces.add( new CheckersPiece( 600, 40, false, player2, false ) );
+        pieces.add( new CheckersPiece( 40, 120, false, player2, false ) );
+        pieces.add( new CheckersPiece( 200, 120, false, player2, false ) );
+        pieces.add( new CheckersPiece( 360, 120, false, player2, false ) );
+        pieces.add( new CheckersPiece( 520, 120, false, player2, false ) );
+        pieces.add( new CheckersPiece( 120, 200, false, player2, false ) );
+        pieces.add( new CheckersPiece( 280, 200, false, player2, false ) );
+        pieces.add( new CheckersPiece( 440, 200, false, player2, false ) );
+        pieces.add( new CheckersPiece( 600, 200, false, player2, false ) );
         
         // Player 1
-        pieces.add( new CheckersPiece( 40, 440, false, player1 ) );
-        pieces.add( new CheckersPiece( 200, 440, false, player1 ) );
-        pieces.add( new CheckersPiece( 360, 440, false, player1 ) );
-        pieces.add( new CheckersPiece( 520, 440, false, player1 ) );
-        pieces.add( new CheckersPiece( 120, 520, false, player1 ) );
-        pieces.add( new CheckersPiece( 280, 520, false, player1 ) );
-        pieces.add( new CheckersPiece( 440, 520, false, player1 ) );
-        pieces.add( new CheckersPiece( 600, 520, false, player1 ) );
-        pieces.add( new CheckersPiece( 40, 600, false, player1 ) );
-        pieces.add( new CheckersPiece( 200, 600, false, player1 ) );
-        pieces.add( new CheckersPiece( 360, 600, false, player1 ) );
-        pieces.add( new CheckersPiece( 520, 600, false, player1 ) );
+        pieces.add( new CheckersPiece( 40, 440, false, player1, true ) );
+        pieces.add( new CheckersPiece( 200, 440, false, player1, true ) );
+        pieces.add( new CheckersPiece( 360, 440, false, player1, true ) );
+        pieces.add( new CheckersPiece( 520, 440, false, player1, true ) );
+        pieces.add( new CheckersPiece( 120, 520, false, player1, true ) );
+        pieces.add( new CheckersPiece( 280, 520, false, player1, true ) );
+        pieces.add( new CheckersPiece( 440, 520, false, player1, true ) );
+        pieces.add( new CheckersPiece( 600, 520, false, player1, true ) );
+        pieces.add( new CheckersPiece( 40, 600, false, player1, true ) );
+        pieces.add( new CheckersPiece( 200, 600, false, player1, true ) );
+        pieces.add( new CheckersPiece( 360, 600, false, player1, true ) );
+        pieces.add( new CheckersPiece( 520, 600, false, player1, true ) );
         
         // Clear the doubleJump
         doubleJump = null;

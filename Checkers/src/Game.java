@@ -24,9 +24,9 @@ public class Game extends Applet implements ActionListener {
 
     public void init() {
         mh = null;
-        
+
         setLayout(new BorderLayout());
-        
+
         add("Center", board = new Board());
 
         JPanel localPanel = new JPanel();
@@ -49,8 +49,8 @@ public class Game extends Applet implements ActionListener {
         localPanel.add(this.resign = new JButton("Resign"));
         localPanel.add(this.getBoard = new JButton("Get Board"));
         add("East", localPanel);
-        
-        setSize(785,640);
+
+        setSize(820, 640);
         this.yourTurn.addActionListener(this);
         this.yourTurn.setBackground(Color.red);
 
@@ -72,10 +72,15 @@ public class Game extends Applet implements ActionListener {
         this.invitor.setFont(new Font("TimesRoman", 1, 16));
 
         this.resign.addActionListener(this);
+        this.resign.setEnabled(false);
         this.getBoard.addActionListener(this);
+        this.getBoard.setEnabled(false);
         this.updatePlayerList.addActionListener(this);
+        this.updatePlayerList.setEnabled(false);
         this.invitePlayer.addActionListener(this);
-        
+        this.invitePlayer.setEnabled(false);
+
+
         this.hosts.setEditable(true);
         this.hosts.addItem("localhost");
         this.hosts.addItem("gauss.ececs.uc.edu");
@@ -88,54 +93,58 @@ public class Game extends Applet implements ActionListener {
         addMouseListener(this.board);
         addMouseMotionListener(this.board);
         
-        board.addChecker(0, 1, true);
-        board.addChecker(0, 3, true);
-        board.addChecker(0, 5, true);
-        board.addChecker(0, 7, true);
-        board.addChecker(1, 0, true);
-        board.addChecker(1, 2, true);
-        board.addChecker(1, 4, true);
-        board.addChecker(1, 6, true);
-        board.addChecker(2, 1, true);
-        board.addChecker(2, 3, true);
-        board.addChecker(2, 5, true);
-        board.addChecker(2, 7, true);
+        board.addChecker(0, 1, false, true);
+        board.addChecker(0, 3, false, true);
+        board.addChecker(0, 5, false, true);
+        board.addChecker(0, 7, false, true);
+        board.addChecker(1, 0, false, true);
+        board.addChecker(1, 2, false, true);
+        board.addChecker(1, 4, false, true);
+        board.addChecker(1, 6, false, true);
+        board.addChecker(2, 1, false, true);
+        board.addChecker(2, 3, false, true);
+        board.addChecker(2, 5, false, true);
+        board.addChecker(2, 7, false, true);
 
-        board.addChecker(5, 0, false);
-        board.addChecker(5, 2, false);
-        board.addChecker(5, 4, false);
-        board.addChecker(5, 6, false);
-        board.addChecker(6, 1, false);
-        board.addChecker(6, 3, false);
-        board.addChecker(6, 5, false);
-        board.addChecker(6, 7, false);
-        board.addChecker(7, 0, false);
-        board.addChecker(7, 2, false);
-        board.addChecker(7, 4, false);
-        board.addChecker(7, 6, false);
+        board.addChecker(5, 0, false, false);
+        board.addChecker(5, 2, false, false);
+        board.addChecker(5, 4, false, false);
+        board.addChecker(5, 6, false, false);
+        board.addChecker(6, 1, false, false);
+        board.addChecker(6, 3, false, false);
+        board.addChecker(6, 5, false, false);
+        board.addChecker(6, 7, false, false);
+        board.addChecker(7, 0, false, false);
+        board.addChecker(7, 2, false, false);
+        board.addChecker(7, 4, false, false);
+        board.addChecker(7, 6, false, false);
 
         
         board.setImage();
         board.paint(board.getGraphics());
-        
+
     }
 
     public void actionPerformed(ActionEvent evt) {
-        if ( evt.getSource() == start ) {
+        if (evt.getSource() == start) {
             startCommand();
-        } else if ( evt.getSource() == terminate ) {    
+        } else if (evt.getSource() == terminate) {
             terminate();
-        } else if ( evt.getSource() == updatePlayerList ) {
+            this.terminate.setEnabled(false);
+            this.start.setEnabled(true);
+            this.handle.setEnabled(true);
+            this.hosts.setEnabled(true);
+        } else if (evt.getSource() == updatePlayerList) {
             updatePlayerList();
-        } else if ( evt.getSource() == invitePlayer ) {
+        } else if (evt.getSource() == invitePlayer) {
             invitePlayer();
-        } else if ( evt.getSource() == acceptInvite ) {
+        } else if (evt.getSource() == acceptInvite) {
             acceptInvite();
-        } else if ( evt.getSource() == declineInvite ) {
+        } else if (evt.getSource() == declineInvite) {
             declineInvite();
-        } else if ( evt.getSource() == resign ) {
+        } else if (evt.getSource() == resign) {
             resign();
-        } else if ( evt.getSource() == getBoard ) {
+        } else if (evt.getSource() == getBoard) {
             getBoard();
         }
     }
@@ -146,43 +155,64 @@ public class Game extends Applet implements ActionListener {
     }
 
     private void terminate() {
-        String request = "resign";
-        if ( mh != null ) {
-            mh.terminate();
-        }
+        this.updatePlayerList.setEnabled(false);
+        this.invitePlayer.setEnabled(false);
+        this.declineInvite.setEnabled(false);
+        this.acceptInvite.setEnabled(false);
+        this.updatePlayerList.setEnabled(false);
+        this.invitor.setText("");
+        this.resign.setEnabled(false);
+        this.getBoard.setEnabled(false);
+        this.playerList.removeAllItems();
+
+
+//        mh.terminate();
     }
 
-    private void updatePlayerList() {
-        if ( mh != null ) {
-            mh.getPlayerList();
-        }
+    public void updatePlayerList() {
+        mh.getPlayerList();
     }
 
     private void invitePlayer() {
-        String request;
-        request = "invite " + this.playerList.getSelectedItem() + "\n";
-        mh.expectingInviteResponse = true;
+        String available = ((String) this.playerList.getSelectedItem()).split(" ")[1];
+        String opponent = ((String) this.playerList.getSelectedItem()).split(" ")[0];
+        if (available.equals("No")) {
+            JOptionPane.showMessageDialog(this, opponent + " is unable to play.");
+        } else if (this.handle.getSelectedItem().equals(opponent)) {
+            JOptionPane.showMessageDialog(this, "You cannnot challenge yourself, silly!");
+        } else if (this.handle.getSelectedItem().equals("")) {
+            JOptionPane.showMessageDialog(this, "No opponent selected");
+        } else {
+            this.invitePlayer.setEnabled(false);
+            mh.invitePlayer(((String) this.playerList.getSelectedItem()).split(" ")[0]);
+        }
     }
 
     private void acceptInvite() {
-        String response = "invitiation " + this.invitor.getText() + " accepted\n";
+        this.mh.acceptInvite(this.invitor.getText());
+        this.acceptInvite.setEnabled(false);
+        this.declineInvite.setEnabled(false);
+        this.terminate.setEnabled(false);
+        this.resign.setEnabled(true);
+        this.invitePlayer.setEnabled(false);
+        this.getBoard.setEnabled(true);
     }
 
     private void declineInvite() {
-        String response = "invitiation " + this.invitor.getText() + " declined\n";
+        this.mh.declineInvite(this.invitor.getText());
+        this.acceptInvite.setEnabled(false);
+        this.declineInvite.setEnabled(false);
+        this.invitor.setText("");
     }
 
     private void resign() {
-        if ( mh != null ) {
-            // TODO: send to server "resign"
-        }
+        this.mh.resign();
+        this.invitePlayer.setEnabled(true);
+        this.resign.setEnabled(false);
     }
 
-    private void getBoard() {
-        if ( mh != null ) {
-            mh.expectingBoard = true;
-            //TODO: Send to server "getboard"
-            return;
-        }
+    public void getBoard() {
+        mh.expectingBoard = true;
+        this.mh.sendGetBoard();
     }
 }
