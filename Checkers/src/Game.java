@@ -27,7 +27,7 @@ public class Game extends Applet implements ActionListener {
 
         setLayout(new BorderLayout());
 
-        add("Center", board = new Board());
+        add("Center", board = new Board(this));
 
         JPanel localPanel = new JPanel();
         localPanel.setLayout(new GridLayout(24, 1));

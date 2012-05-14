@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -44,6 +45,7 @@ public class MessageHandler extends Thread {
                 String serverMessage = in.readLine();
                 if (!serverMessage.equals("")
                         && !serverMessage.equals("U")) {
+                    System.out.println("From server: " + serverMessage);
                     if (loginSucceeded) {
                         if (expectingPlayerList) {
                             getPlayerList(serverMessage);
@@ -59,8 +61,11 @@ public class MessageHandler extends Thread {
                             if (command.equals("invite")) {
                                 this.showInvitation(st.nextToken());                            
                             } else if (command.equals("oppmovestart")) {
+                                oppmovestart(st);
                             } else if (command.equals("oppmove")) {
+                                oppmove(st);
                             } else if (command.equals("yourturn")) {
+                                yourturn(st);
                             } else if (command.equals("gameend")) {
                                 gameResult = st.nextToken();
                                 canUnregister = true;
@@ -100,7 +105,19 @@ public class MessageHandler extends Thread {
             Logger.getLogger(MessageHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public void yourturn(StringTokenizer stringTokenizer) {
+        System.out.println("It's our turn");
+        game.board.myturn = true;
+        if ( game.board.me == game.board.player_1 ) {
+            game.yourTurn.setBackground(Color.red);
+            game.yourTurn.setForeground(Color.black);
+        } else {
+            game.yourTurn.setBackground(Color.black);
+            game.yourTurn.setForeground(Color.white);
+        }
+        game.yourTurn.setText("Your Turn");
+    }
 
     private void getPlayerList(String serverMessage) {
         // parse the player list response
@@ -182,7 +199,14 @@ public class MessageHandler extends Thread {
         myTurn = true;
     }
 
+    public void oppmovestart(StringTokenizer st) {
+        
+    }
+
     public void oppmovepos(StringTokenizer st) {
+        int x = Integer.parseInt(st.nextToken());
+        int y = Integer.parseInt(st.nextToken());
+        game.board.paint(game.board.getGraphics());
     }
 
     public void oppmove(StringTokenizer st) {
@@ -214,6 +238,7 @@ public class MessageHandler extends Thread {
     public void invitePlayer(String player) {
         this.out.println("invite " + player);
         this.expectingInviteResponse = true;
+        game.board.me = game.board.player_1;
     }
 
     private void showInvitation(String player) {
@@ -225,6 +250,7 @@ public class MessageHandler extends Thread {
 
     public void acceptInvite(String player) {
         this.out.println("invitation " + player + " accepted");
+        game.board.me = game.board.player_2;
     }
 
     public void declineInvite(String player) {
