@@ -5,11 +5,10 @@ public class CheckersPiece {
    private CheckersClient owner;
    private boolean isRed;
 
-   public CheckersPiece(int hPos, int vPos, boolean king, CheckersClient o, boolean red) {
+   public CheckersPiece(int hPos, int vPos, boolean king, boolean red) {
       horizPos = hPos;
       vertPos = vPos;
       isKing = king;
-      owner = o;
       isRed = red;
    }
 
@@ -43,5 +42,8 @@ public class CheckersPiece {
 
    public boolean getIsRed() {
        return this.isRed;
+   }
+   public void draw() {
+       System.out.println("Drawing a checker");
    }
 }

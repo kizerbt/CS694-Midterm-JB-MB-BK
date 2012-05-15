@@ -116,7 +116,7 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
         if (moving >= 0) {                                    // 3
             int x = evt.getX() + xdiff;                        // 3
             int y = evt.getY() + ydiff;                        // 3
-            CheckersPiece cp = new CheckersPiece(x, y, moving_is_king, moving_owner, moving_color);      // 3
+            CheckersPiece cp = new CheckersPiece(x, y, moving_is_king, moving_color);      // 3
             checkers.setElementAt(cp, 0);                       // 3
             game.mh.out.println("movepos " + x + " " + y);
             paint(this.getGraphics());                         // 3
@@ -154,7 +154,7 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
         int row = (int) Math.floor(evt.getY() / 80);
         int x = col * 80 + 8;
         int y = row * 80 + 8;
-        CheckersPiece cp = new CheckersPiece(x, y, checkers.get(over).isKing(), checkers.get(over).getOwner(), checkers.get(over).getIsRed());
+        CheckersPiece cp = new CheckersPiece(x, y, checkers.get(over).isKing(), checkers.get(over).getIsRed());
         if (!removing) {
             checkers.setElementAt(cp, over);
         }
@@ -172,7 +172,7 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
 
     public void addChecker(int i, int j, boolean isKing, boolean color) {       // 5
         removing = false;                                     // 5
-        checkers.add(new CheckersPiece(10 + 80*j, 10 + 80*i, isKing, null, color));       // 5
+        checkers.add(new CheckersPiece(j, i, isKing, color));       // 5
     }
     
     public void removeChecker(CheckersPiece cp) {

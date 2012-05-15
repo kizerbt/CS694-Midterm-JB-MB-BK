@@ -140,7 +140,6 @@ public class MessageHandler extends Thread {
             CheckersPiece checker = new CheckersPiece(Integer.parseInt(checkerArgs[1]),
                                                       Integer.parseInt(checkerArgs[0]),
                                                       checkerArgs[2].equals("King"),
-                                                      null,
                                                       checkerArgs[3].equals(this.game.handle.getSelectedItem()));
             
                 this.game.board.addChecker(checker.getHorizPos(), checker.getVertPos(), checker.isKing(), checker.getIsRed());
@@ -200,7 +199,13 @@ public class MessageHandler extends Thread {
     }
 
     public void oppmovestart(StringTokenizer st) {
-        
+        int horizPos = Integer.parseInt(st.nextToken());
+        int vertPos = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < 12; i++ ) {
+
+        }
+        System.out.println("piece at " + horizPos + ", " + vertPos + " is moving");
+        game.board.paint(game.board.getGraphics());
     }
 
     public void oppmovepos(StringTokenizer st) {
@@ -210,6 +215,16 @@ public class MessageHandler extends Thread {
     }
 
     public void oppmove(StringTokenizer st) {
+        int initHoriz = Integer.parseInt(st.nextToken());
+        int initVert = Integer.parseInt(st.nextToken());
+        int finalHoriz = Integer.parseInt(st.nextToken());
+        int finalVert = Integer.parseInt(st.nextToken());
+        if ( game.board.me == game.board.player_1 ) {
+            game.board.player_2.move(initHoriz, initVert, finalHoriz, finalVert);
+        } else {
+            game.board.player_1.move(initHoriz, initVert, finalHoriz, finalVert);
+        }
+        game.board.paint(game.board.getGraphics());
     }
 
     public void terminate() {
@@ -224,7 +239,7 @@ public class MessageHandler extends Thread {
         ypos = Integer.parseInt(st.nextToken());
         isKing = st.nextToken().equals("King");
         isRed = st.nextToken().equals(this.game.handle.getSelectedItem());
-        game.board.removeChecker(new CheckersPiece(xpos, ypos, isKing, null, isRed));
+        game.board.removeChecker(new CheckersPiece(xpos, ypos, isKing, isRed));
         game.board.paint(game.board.getGraphics());
     }
 

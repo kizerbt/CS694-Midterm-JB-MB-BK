@@ -93,31 +93,31 @@ public class Game extends Applet implements ActionListener {
         addMouseListener(this.board);
         addMouseMotionListener(this.board);
         
-        board.addChecker(0, 1, false, true);
-        board.addChecker(0, 3, false, true);
-        board.addChecker(0, 5, false, true);
-        board.addChecker(0, 7, false, true);
-        board.addChecker(1, 0, false, true);
-        board.addChecker(1, 2, false, true);
-        board.addChecker(1, 4, false, true);
-        board.addChecker(1, 6, false, true);
-        board.addChecker(2, 1, false, true);
-        board.addChecker(2, 3, false, true);
-        board.addChecker(2, 5, false, true);
-        board.addChecker(2, 7, false, true);
+        board.addChecker(8, 88, false, true);
+        board.addChecker(8, 248, false, true);
+        board.addChecker(8, 408, false, true);
+        board.addChecker(8, 568, false, true);
+        board.addChecker(88, 8, false, true);
+        board.addChecker(88, 168, false, true);
+        board.addChecker(88, 328, false, true);
+        board.addChecker(88, 488, false, true);
+        board.addChecker(168, 88, false, true);
+        board.addChecker(168, 248, false, true);
+        board.addChecker(168, 408, false, true);
+        board.addChecker(168, 568, false, true);
 
-        board.addChecker(5, 0, false, false);
-        board.addChecker(5, 2, false, false);
-        board.addChecker(5, 4, false, false);
-        board.addChecker(5, 6, false, false);
-        board.addChecker(6, 1, false, false);
-        board.addChecker(6, 3, false, false);
-        board.addChecker(6, 5, false, false);
-        board.addChecker(6, 7, false, false);
-        board.addChecker(7, 0, false, false);
-        board.addChecker(7, 2, false, false);
-        board.addChecker(7, 4, false, false);
-        board.addChecker(7, 6, false, false);
+        board.addChecker(408, 8, false, false);
+        board.addChecker(408, 168, false, false);
+        board.addChecker(408, 328, false, false);
+        board.addChecker(408, 488, false, false);
+        board.addChecker(488, 88, false, false);
+        board.addChecker(488, 248, false, false);
+        board.addChecker(488, 408, false, false);
+        board.addChecker(488, 568, false, false);
+        board.addChecker(568, 8, false, false);
+        board.addChecker(568, 168, false, false);
+        board.addChecker(568, 328, false, false);
+        board.addChecker(568, 488, false, false);
 
         
         board.setImage();
