@@ -22,9 +22,6 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
     boolean moving_color; // red =  true, black = false;
     boolean moving_is_king;
     CheckersClient moving_owner;
-    Player player_1;
-    Player player_2;
-    Player me;
     Game game;
     CheckersPiece opponentMove;
 
@@ -96,6 +93,12 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
         if ((moving = areWeOverAChecker(evt)) < 0) {
             return;    // 3
         }
+        
+        if ( checkers.get(moving).getIsRed() != this.game.isRed) {
+            moving = -1;
+            return;
+        }
+        
         if (removing) {
             checkers.removeElementAt(moving);
             paint(this.getGraphics());
@@ -106,9 +109,10 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
             xdiff = (checkers.get(moving)).getHorizPos() - evt.getX();  // 4
             ydiff = (checkers.get(moving)).getVertPos() - evt.getY();  // 4
             checkers.add(0, checkers.remove(moving));
-
-            game.mh.out.println("movestart " + checkers.get(moving).getHorizPos() + " " + checkers.get(moving).getVertPos());
-            game.mh.out.println("movestart " + checkers.get(moving).getHorizPos() + " " + checkers.get(moving).getVertPos());
+            
+            game.mh.out.println("movestart " + checkers.get(0).getHorizPos() + " " + checkers.get(0).getVertPos());
+            System.out.println("movestart " + checkers.get(0).getHorizPos() + " " + checkers.get(0).getVertPos());
+            //game.mh.out.println("movestart " + checkers.get(moving).getHorizPos() + " " + checkers.get(moving).getVertPos());
         }
     }
 
@@ -119,6 +123,7 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
             CheckersPiece cp = new CheckersPiece(x, y, moving_is_king, moving_color);      // 3
             checkers.setElementAt(cp, 0);                       // 3
             game.mh.out.println("movepos " + x + " " + y);
+            System.out.println("movepos " + x + " " + y);
             paint(this.getGraphics());                         // 3
         }
     }
@@ -128,11 +133,10 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
             int x = evt.getX() + xdiff;
             int y = evt.getY() + ydiff;
             game.yourTurn.setText("");
-            if ( player_1 == me ) {
-                game.yourTurn.setBackground(Color.black);
-            } else {
-                game.yourTurn.setBackground(Color.red);
-            }
+            
+            this.game.yourTurn.setBackground((this.game.isRed) ? Color.black : Color.red);
+            
+            System.out.println("moveend " + x + " " + y);
             game.mh.out.println("moveend " + x + " " + y);
             moving = -1;
             myturn = false;
@@ -175,21 +179,26 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
         checkers.add(new CheckersPiece(j, i, isKing, color));       // 5
     }
     
-    public void removeChecker(CheckersPiece cp) {
-        for(CheckersPiece piece: this.checkers){
-            if (piece.equals(cp)) {
-                this.checkers.remove(cp);
-                return;
-            }            
-        }
-    }
-    
     public void removeAllCheckers(){
         this.checkers.removeAllElements();
     }
     
     void kingMe(int xpos, int ypos) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        CheckersPiece cp = this.getChecker(xpos, ypos);
+        cp.setIsKing(true);
+        this.repaint();
+    }
+    
+    public CheckersPiece getChecker(int h, int v){
+        CheckersPiece ret = null;
+        
+        for(CheckersPiece cp: this.checkers){
+            if(cp.getHorizPos() == h && cp.getVertPos() == v) {
+                ret = cp;
+            }
+        }
+        
+        return ret;
     }
 }
 

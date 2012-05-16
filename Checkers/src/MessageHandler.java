@@ -67,8 +67,19 @@ public class MessageHandler extends Thread {
                             } else if (command.equals("yourturn")) {
                                 yourturn(st);
                             } else if (command.equals("gameend")) {
+                                boolean winner;
                                 gameResult = st.nextToken();
+                                String message = "You have " + gameResult + "!";
+                                
                                 canUnregister = true;
+                                this.game.getBoard.setEnabled(false);
+                                this.game.resign.setEnabled(false);
+                                this.game.invitePlayer.setEnabled(true);
+                                this.game.invitor.setText("");
+                                this.game.yourTurn.setText("");
+                                
+                                
+                                JOptionPane.showMessageDialog(game, message);
                             } else if (command.equals("remove")) {
                                 removeChecker(st);
                             } else if (command.equals("king")) {
@@ -109,13 +120,10 @@ public class MessageHandler extends Thread {
     public void yourturn(StringTokenizer stringTokenizer) {
         System.out.println("It's our turn");
         game.board.myturn = true;
-        if ( game.board.me == game.board.player_1 ) {
-            game.yourTurn.setBackground(Color.red);
-            game.yourTurn.setForeground(Color.black);
-        } else {
-            game.yourTurn.setBackground(Color.black);
-            game.yourTurn.setForeground(Color.white);
-        }
+
+        game.yourTurn.setBackground((this.game.isRed) ? Color.red : Color.black);
+        game.yourTurn.setForeground((this.game.isRed) ? Color.black : Color.white);
+        
         game.yourTurn.setText("Your Turn");
     }
 
@@ -136,11 +144,13 @@ public class MessageHandler extends Thread {
         for (int i = 0; i < numTokens; i++) {
             String piece = st.nextToken();
             System.out.println(piece);
-            String[] checkerArgs = piece.split(" ");     
+            String[] checkerArgs = piece.split(" ");
+            Boolean isMe = checkerArgs[3].equals(this.game.handle.getSelectedItem());
+            
             CheckersPiece checker = new CheckersPiece(Integer.parseInt(checkerArgs[1]),
                                                       Integer.parseInt(checkerArgs[0]),
                                                       checkerArgs[2].equals("King"),
-                                                      checkerArgs[3].equals(this.game.handle.getSelectedItem()));
+                                                      ((isMe) ? this.game.isRed : !this.game.isRed));
             
                 this.game.board.addChecker(checker.getHorizPos(), checker.getVertPos(), checker.isKing(), checker.getIsRed());
             
@@ -194,10 +204,6 @@ public class MessageHandler extends Thread {
         game.invitor.setText(st.nextToken());
     }
 
-    public void yourTurn(StringTokenizer st) {
-        myTurn = true;
-    }
-
     public void oppmovestart(StringTokenizer st) {
         int horizPos = Integer.parseInt(st.nextToken());
         int vertPos = Integer.parseInt(st.nextToken());
@@ -219,11 +225,12 @@ public class MessageHandler extends Thread {
         int initVert = Integer.parseInt(st.nextToken());
         int finalHoriz = Integer.parseInt(st.nextToken());
         int finalVert = Integer.parseInt(st.nextToken());
-        if ( game.board.me == game.board.player_1 ) {
-            game.board.player_2.move(initHoriz, initVert, finalHoriz, finalVert);
-        } else {
-            game.board.player_1.move(initHoriz, initVert, finalHoriz, finalVert);
-        }
+        
+        CheckersPiece cp = this.game.board.getChecker(initHoriz, initVert);
+        
+        cp.setHorizPos(finalHoriz);
+        cp.setVertPos(finalVert);
+        
         game.board.paint(game.board.getGraphics());
     }
 
@@ -234,13 +241,21 @@ public class MessageHandler extends Thread {
 
     public void removeChecker(StringTokenizer st) {
         int xpos, ypos;
-        boolean isKing, isRed;
+        boolean isKing, isMe, checkerIsRed;
         xpos = Integer.parseInt(st.nextToken());
         ypos = Integer.parseInt(st.nextToken());
         isKing = st.nextToken().equals("King");
-        isRed = st.nextToken().equals(this.game.handle.getSelectedItem());
-        game.board.removeChecker(new CheckersPiece(xpos, ypos, isKing, isRed));
-        game.board.paint(game.board.getGraphics());
+        isMe = st.nextToken().equals(this.game.handle.getSelectedItem());
+        checkerIsRed = (isMe) ? this.game.isRed : !this.game.isRed;
+        CheckersPiece cp = this.game.board.getChecker(xpos, ypos);
+        
+        if ( cp != null ) {
+            if ( cp.isKing() == isKing && cp.getIsRed() == checkerIsRed) {
+                this.game.board.checkers.remove(cp);
+            }
+        }
+        
+        game.board.repaint();
     }
 
     public void kingCommand(StringTokenizer st) {
@@ -253,7 +268,6 @@ public class MessageHandler extends Thread {
     public void invitePlayer(String player) {
         this.out.println("invite " + player);
         this.expectingInviteResponse = true;
-        game.board.me = game.board.player_1;
     }
 
     private void showInvitation(String player) {
@@ -265,7 +279,6 @@ public class MessageHandler extends Thread {
 
     public void acceptInvite(String player) {
         this.out.println("invitation " + player + " accepted");
-        game.board.me = game.board.player_2;
     }
 
     public void declineInvite(String player) {

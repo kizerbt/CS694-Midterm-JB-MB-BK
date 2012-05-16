@@ -21,6 +21,7 @@ public class Game extends Applet implements ActionListener {
     JLabel invitor_label;
     Board board;
     MessageHandler mh;
+    Boolean isRed;
 
     public void init() {
         mh = null;
@@ -186,6 +187,8 @@ public class Game extends Applet implements ActionListener {
             this.invitePlayer.setEnabled(false);
             mh.invitePlayer(((String) this.playerList.getSelectedItem()).split(" ")[0]);
         }
+        
+        this.isRed = false;
     }
 
     private void acceptInvite() {
@@ -196,6 +199,7 @@ public class Game extends Applet implements ActionListener {
         this.resign.setEnabled(true);
         this.invitePlayer.setEnabled(false);
         this.getBoard.setEnabled(true);
+        this.isRed = true;
     }
 
     private void declineInvite() {
