@@ -132,14 +132,21 @@ class Board extends Canvas implements MouseMotionListener, MouseListener {
         if ( moving >= 0 ) {
             int x = evt.getX() + xdiff;
             int y = evt.getY() + ydiff;
-            game.yourTurn.setText("");
-            
-            this.game.yourTurn.setBackground((this.game.isRed) ? Color.black : Color.red);
-            
             System.out.println("moveend " + x + " " + y);
             game.mh.out.println("moveend " + x + " " + y);
-            moving = -1;
-            myturn = false;
+            game.mh.expectingMoveEnd = true;
+
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {}
+            if ( game.mh.moveSuccessful ) {
+                game.yourTurn.setText("");
+                this.game.yourTurn.setBackground((this.game.isRed) ? Color.black : Color.red);
+                moving = -1;
+                myturn = false;
+            } else {
+                game.getBoard();
+            }
         }
     } // 3
 
